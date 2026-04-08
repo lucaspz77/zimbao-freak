@@ -33,6 +33,9 @@
             
             <form id="main-setup">
                 <input type="text" id="name" placeholder="Nome Completo" required>
+                <input type="email" id="setup-email" placeholder="Seu E-mail (Login)" required>
+                <input type="password" id="setup-pass" placeholder="Crie uma Senha" required>
+
                 <div style="display:flex; gap: 10px;">
                     <input type="number" id="age" placeholder="Idade" required>
                     <input type="number" id="weight" placeholder="Peso (kg)" required>
@@ -73,19 +76,16 @@
 
         <section id="tab-diet" class="tab-content">
             <h2 style="font-family:'Orbitron'; margin-bottom: 10px; color: var(--primary);">DIETA ESTRATÉGICA</h2>
-            <p style="font-size: 0.8rem; color: #888; margin-bottom: 20px;">Calculado com base no seu metabolismo basal e fator de atividade.</p>
-            
             <div id="diet-result">
                 <div class="diet-grid">
-                    <div class="macro-card"><span class="macro-label">Calorias Diárias</span><span class="macro-val" id="d-cal">0</span><small>kcal</small></div>
+                    <div class="macro-card"><span class="macro-label">Calorias</span><span class="macro-val" id="d-cal">0</span><small>kcal</small></div>
                     <div class="macro-card"><span class="macro-label">Proteína</span><span class="macro-val" id="d-prot">0</span><small>g</small></div>
                     <div class="macro-card"><span class="macro-label">Carbo</span><span class="macro-val" id="d-carb">0</span><small>g</small></div>
                     <div class="macro-card"><span class="macro-label">Gordura</span><span class="macro-val" id="d-fat">0</span><small>g</small></div>
                 </div>
-
                 <div class="lib-card" style="margin-top: 30px;">
                     <h3 style="font-family: 'Orbitron'; color: var(--primary); margin-bottom: 15px;">Sugestão de Cardápio</h3>
-                    <div id="meal-plan" style="font-size: 0.9rem; line-height: 1.6;"></div>
+                    <div id="meal-plan"></div>
                 </div>
             </div>
         </section>
@@ -93,31 +93,30 @@
         <section id="tab-stats" class="tab-content">
             <h2 style="font-family:'Orbitron'; margin-bottom: 20px; color: var(--primary);">EVOLUTION TRACKER</h2>
             <div class="evolution-form">
-                <div class="input-box" style="flex: 2; min-width: 200px;">
+                <div class="input-box" style="flex: 2;">
                     <label>Exercício</label>
-                    <select id="log-exercise" style="margin-top:0; padding: 14px;"></select>
+                    <select id="log-exercise"></select>
                 </div>
                 <div class="input-box">
                     <label>Carga (kg)</label>
-                    <input type="number" id="log-bench" placeholder="0" style="margin-top:0">
+                    <input type="number" id="log-bench" placeholder="0">
                 </div>
                 <div class="input-box">
-                    <label>Peso Corporal (kg)</label>
-                    <input type="number" id="log-mass" placeholder="0" style="margin-top:0">
+                    <label>Peso (kg)</label>
+                    <input type="number" id="log-mass" placeholder="0">
                 </div>
-                <button onclick="updateEvolution()" class="btn-primary" style="margin-top:0; padding: 15px; width: auto; flex: 1;">REGISTRAR</button>
+                <button onclick="updateEvolution()" class="btn-primary" style="margin-top:0; width: auto; flex: 1;">REGISTRAR</button>
             </div>
-
             <div class="stats-grid">
                 <div class="chart-container">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; justify-content: space-between;">
                         <h3>Progresso de Força</h3>
-                        <select id="filter-chart-exercise" onchange="renderCharts()" style="width: auto; margin-top:0; padding: 5px; font-size: 0.7rem;"></select>
+                        <select id="filter-chart-exercise" onchange="renderCharts()"></select>
                     </div>
                     <div class="bar-wrapper" id="chart-load"></div>
                 </div>
                 <div class="chart-container">
-                    <h3>Evolução de Massa (Anual)</h3>
+                    <h3>Evolução de Massa</h3>
                     <div class="bar-wrapper" id="chart-mass"></div>
                 </div>
             </div>
@@ -125,7 +124,7 @@
 
         <section id="tab-wiki" class="tab-content">
             <div class="search-container">
-                <input type="text" class="search-bar" id="wiki-search" placeholder="🔍 Buscar técnica ou músculo..." onkeyup="searchWiki()">
+                <input type="text" class="search-bar" id="wiki-search" placeholder="🔍 Buscar técnica..." onkeyup="searchWiki()">
             </div>
             <div id="render-wiki"></div>
         </section>
@@ -138,7 +137,6 @@
             <div class="nav-btn" onclick="logout()"><i class="fas fa-power-off"></i></div>
         </nav>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

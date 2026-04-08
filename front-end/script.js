@@ -1,8 +1,7 @@
 const MONTHS = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
 
-// 1. BASE DE DADOS COMPLETA (Mantida)
+// 1. BASE DE DADOS COMPLETA
 const EXERCISES_DATABASE = [
-    // ... todos os seus exercícios permanecem aqui ...
     { id: 1, cat: "Peito", name: "Supino Reto Barra", target: "Peitoral Maior", desc: "Clássico para massa bruta.", tip: "Ponte leve com a coluna." },
     { id: 2, cat: "Peito", name: "Supino Inclinado Halteres", target: "Peitoral Superior", desc: "Foco na parte de cima do peito.", tip: "Não encoste os halteres." },
     { id: 3, cat: "Peito", name: "Crucifixo Reto", target: "Peitoral", desc: "Isolamento total.", tip: "Cotovelos levemente flexionados." },
@@ -68,16 +67,14 @@ const EXERCISES_DATABASE = [
     { id: 68, cat: "Abdômen", name: "Vacuum", target: "Transverso", desc: "Cintura fina.", tip: "Solte todo o ar e sugue o umbigo." }
 ];
 
-// 2. METODOLOGIAS (Mantida)
 const METHODOLOGIES_DATABASE = [
-    { name: "Low Volume (Heavy Duty)", desc: "Intensidade máxima até a falha total.", protocol: "2 sets x 6-8 reps", color: "#ff4500" },
-    { name: "High Volume (Volume Alemão)", desc: "Grande quantidade de séries para hipertrofia.", protocol: "10 sets x 10 reps", color: "#adff2f" },
-    { name: "Powerlifting (Força Pura)", desc: "Foco nos grandes levantamentos e carga.", protocol: "5 sets x 3-5 reps", color: "#ffffff" },
-    { name: "Padrão (Hipertrofia)", desc: "O equilíbrio perfeito para ganho de massa.", protocol: "4 sets x 12 reps", color: "#adff2f" }
+    { name: "Low Volume (Heavy Duty)", desc: "Intensidade máxima.", protocol: "2 sets x 6-8 reps", color: "#ff4500" },
+    { name: "High Volume (Volume Alemão)", desc: "Grande volume.", protocol: "10 sets x 10 reps", color: "#adff2f" },
+    { name: "Powerlifting (Força Pura)", desc: "Carga máxima.", protocol: "5 sets x 3-5 reps", color: "#ffffff" },
+    { name: "Padrão (Hipertrofia)", desc: "Equilíbrio.", protocol: "4 sets x 12 reps", color: "#adff2f" }
 ];
 
 let currentUser = null;
-// EvolutionStore agora vai buscar do Banco de Dados no startApp
 let evolutionStore = { bench: [], mass: [] };
 
 // AUTH & NAVIGATION
@@ -86,7 +83,6 @@ function toggleAuth() {
     document.getElementById('setup-form').classList.toggle('hidden');
 }
 
-// LOGIN VIA BACK-END (Integrado com Perfil)
 async function handleLogin() {
     const email = document.getElementById('auth-email').value;
     const password = document.getElementById('auth-pass').value;
@@ -104,19 +100,19 @@ async function handleLogin() {
             localStorage.setItem('usuarioLogado', JSON.stringify(user));
             startApp(user);
         } else {
-            alert("Credenciais incorretas, monstro!");
+            alert(user.message || "Credenciais incorretas!");
         }
     } catch (error) {
-        alert("Erro ao conectar no servidor.");
+        alert("Erro ao conectar no servidor. O back-end está rodando?");
     }
 }
 
-// CADASTRO VIA BACK-END
+// CADASTRO CORRIGIDO COM NOVOS IDs
 document.getElementById('main-setup').onsubmit = async function(e) {
     e.preventDefault();
     const user = { 
         name: document.getElementById('name').value, 
-        email: document.getElementById('auth-email').value, 
+        email: document.getElementById('setup-email').value, 
         password: document.getElementById('setup-pass').value, 
         goal: document.getElementById('goal').value, 
         freq: parseInt(document.getElementById('freq').value),
@@ -132,70 +128,60 @@ document.getElementById('main-setup').onsubmit = async function(e) {
             body: JSON.stringify(user)
         });
         if (response.ok) {
-            alert("Monstro cadastrado com sucesso!");
-            startApp(user);
+            alert("Monstro cadastrado! Faça login agora.");
+            toggleAuth();
+        } else {
+            const res = await response.json();
+            alert("Erro: " + res.message);
         }
     } catch (error) {
         alert("Erro no servidor.");
     }
 };
 
-// INICIALIZAÇÃO DO APP (Perfil e Cargas)
 async function startApp(user) {
     currentUser = user;
-    
-    // Mostra Dashboard e Perfil
     document.getElementById('auth-container').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     
-    // Atualiza todos os campos de Perfil (Header e Nav)
     if(document.getElementById('user-header')) document.getElementById('user-header').style.display = 'flex';
-    if(document.getElementById('header-display-name')) document.getElementById('header-display-name').innerText = user.name.toUpperCase();
-    if(document.getElementById('header-display-goal')) document.getElementById('header-display-goal').innerText = user.goal.toUpperCase();
-    if(document.getElementById('header-display-weight')) document.getElementById('header-display-weight').innerText = user.weight;
+    document.getElementById('header-display-name').innerText = user.name.toUpperCase();
+    document.getElementById('header-display-goal').innerText = user.goal.toUpperCase();
+    document.getElementById('header-display-weight').innerText = user.weight;
     
     document.getElementById('nav-display-name').innerText = user.name.split(' ')[0].toUpperCase();
     document.getElementById('nav-display-goal').innerText = user.goal.toUpperCase();
 
-    // Configura opções dos selects
     const options = EXERCISES_DATABASE.sort((a,b) => a.name.localeCompare(b.name))
                     .map(ex => `<option value="${ex.name}">${ex.name}</option>`).join('');
     document.getElementById('log-exercise').innerHTML = options;
     document.getElementById('filter-chart-exercise').innerHTML = options;
 
-    // Busca cargas do banco
     await carregarCargasDoBanco();
-
     injectAcademyTab();
     generateStructuredWorkout(user);
     renderWiki(); 
     calculateDiet(user);
 }
 
-// LOGOUT
 function logout() {
     localStorage.removeItem('usuarioLogado');
     location.reload();
 }
 
-// FUNÇÃO PARA BUSCAR CARGAS NO MONGODB
 async function carregarCargasDoBanco() {
     try {
         const response = await fetch(`http://localhost:3000/meus-treinos/${currentUser._id || currentUser.email}`);
         const treinos = await response.json();
-        
         evolutionStore.bench = treinos.map(t => ({
             val: t.carga,
             m: MONTHS[new Date(t.data).getMonth()],
             ex: t.exercicio
         }));
         renderCharts();
-    } catch (e) {
-        console.log("Erro ao carregar histórico.");
-    }
+    } catch (e) { console.log("Erro cargas."); }
 }
 
-// REGISTRAR CARGA NO BANCO
 async function updateEvolution() {
     const exercise = document.getElementById('log-exercise').value;
     const benchVal = parseFloat(document.getElementById('log-bench').value);
@@ -212,70 +198,53 @@ async function updateEvolution() {
             })
         });
     }
-    
-    // Peso corporal ainda mantemos local ou pode adicionar rota no back se quiser
     if(massVal > 0) {
         evolutionStore.mass.push({val: massVal, m: MONTHS[new Date().getMonth()]});
     }
-
     await carregarCargasDoBanco();
 }
-
-// ... Restante das suas funções (calculateDiet, injectAcademyTab, generateStructuredWorkout, renderWiki, renderCharts, changeTab) permanecem exatamente iguais ...
 
 function changeTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     btn.classList.add('active');
-    window.scrollTo(0,0);
 }
 
 function calculateDiet(user) {
     let bmr = (10 * user.weight) + (6.25 * user.height) - (5 * user.age) + 5;
     let tdee = bmr * 1.55; 
     let calories, p, c, f;
-    
     if(user.goal === 'hipertrofia') { calories = tdee + 400; p = user.weight * 2.2; f = user.weight * 0.9; }
     else if(user.goal === 'cutting') { calories = tdee - 500; p = user.weight * 2.4; f = user.weight * 0.7; }
     else { calories = tdee + 200; p = user.weight * 2.0; f = user.weight * 1.0; }
     c = (calories - (p*4) - (f*9)) / 4;
-
     document.getElementById('d-cal').innerText = Math.round(calories);
     document.getElementById('d-prot').innerText = Math.round(p);
     document.getElementById('d-carb').innerText = Math.round(c);
     document.getElementById('d-fat').innerText = Math.round(f);
-
-    document.getElementById('meal-plan').innerHTML = `
-        • <b>Café:</b> Ovos mexidos, aveia e fruta.<br>
-        • <b>Almoço:</b> Arroz/Batata, 150g+ Proteína e Vegetais.<br>
-        • <b>Jantar:</b> Proteína magra, legumes e gordura boa.
-    `;
+    document.getElementById('meal-plan').innerHTML = `• Ovos, aveia e fruta.<br>• Arroz, Proteína e Vegetais.<br>• Proteína magra e legumes.`;
 }
 
 function injectAcademyTab() {
     const bottomBar = document.querySelector('.bottom-bar');
     if (!document.getElementById('btn-academy')) {
         const btn = document.createElement('div');
-        btn.className = "nav-btn";
-        btn.id = "btn-academy";
+        btn.className = "nav-btn"; btn.id = "btn-academy";
         btn.innerHTML = '<i class="fas fa-graduation-cap"></i>';
         btn.onclick = () => changeTab('tab-academy', btn);
         bottomBar.appendChild(btn);
     }
-    const dashboard = document.getElementById('dashboard');
     if (!document.getElementById('tab-academy')) {
         const tab = document.createElement('section');
-        tab.id = 'tab-academy';
-        tab.className = 'tab-content';
-        tab.innerHTML = `<h2 style="font-family:'Orbitron'; margin-bottom: 20px; color: var(--primary);">FREAK ACADEMY</h2><div id="render-academy" class="workout-grid"></div>`;
-        dashboard.appendChild(tab);
+        tab.id = 'tab-academy'; tab.className = 'tab-content';
+        tab.innerHTML = `<h2 style="font-family:'Orbitron'; color: var(--primary);">FREAK ACADEMY</h2><div id="render-academy" class="workout-grid"></div>`;
+        document.getElementById('dashboard').appendChild(tab);
     }
     document.getElementById('render-academy').innerHTML = METHODOLOGIES_DATABASE.map(m => `
         <div class="lib-card" style="border-left: 4px solid ${m.color}">
-            <h3 style="color:${m.color}; font-family:'Orbitron'">${m.name}</h3>
-            <p style="margin: 10px 0; font-size:0.9rem;">${m.desc}</p>
-            <strong>Protocolo: ${m.protocol}</strong>
+            <h3 style="color:${m.color}">${m.name}</h3>
+            <p>${m.desc}</p><strong>${m.protocol}</strong>
         </div>`).join('');
 }
 
@@ -283,42 +252,23 @@ function generateStructuredWorkout(user) {
     const container = document.getElementById('render-workout');
     container.innerHTML = "";
     const getById = (id) => EXERCISES_DATABASE.find(e => e.id === id);
-    
     let method = METHODOLOGIES_DATABASE[3];
     if(user.goal === 'hipertrofia') method = METHODOLOGIES_DATABASE[1];
     if(user.goal === 'forca') method = METHODOLOGIES_DATABASE[2];
     if(user.goal === 'cutting') method = METHODOLOGIES_DATABASE[0];
-
-    let workoutPlan = [];
-    if(user.freq >= 5) {
-        workoutPlan = [
-            { title: "PUSH (Peito/Ombro/Tríceps)", ids: [1, 2, 36, 37, 51, 52] },
-            { title: "PULL (Costas/Bíceps)", ids: [15, 11, 12, 46, 48, 42] },
-            { title: "LEGS (Membros Inferiores)", ids: [21, 22, 25, 23, 31, 62] }
-        ];
-    } else if(user.freq == 4) {
-        workoutPlan = [
-            { title: "UPPER (Superior)", ids: [1, 11, 36, 12, 46, 51] },
-            { title: "LOWER (Inferior)", ids: [21, 24, 22, 25, 31, 63] }
-        ];
-    } else {
-        workoutPlan = [{ title: "FULL BODY (Completo)", ids: [21, 1, 11, 36, 47, 61] }];
-    }
-
+    let workoutPlan = user.freq >= 5 ? [
+        { title: "PUSH", ids: [1, 2, 36, 37, 51, 52] },
+        { title: "PULL", ids: [15, 11, 12, 46, 48, 42] },
+        { title: "LEGS", ids: [21, 22, 25, 23, 31, 62] }
+    ] : [{ title: "FULL BODY", ids: [21, 1, 11, 36, 47, 61] }];
     workoutPlan.forEach(day => {
         const card = document.createElement('div');
         card.className = "day-card";
         let exHtml = day.ids.map(id => {
             const ex = getById(id);
-            return `<div class="exercise-item">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <strong>${ex.name}</strong>
-                    <span style="color:${method.color}; font-family:'Orbitron'; font-size:0.7rem;">${method.protocol}</span>
-                </div>
-                <small style="color:#666;">${ex.target} | ${method.name}</small>
-            </div>`;
+            return `<div class="exercise-item"><strong>${ex.name}</strong><br><small>${method.protocol}</small></div>`;
         }).join('');
-        card.innerHTML = `<h3><i class="fas fa-medal"></i> ${day.title}</h3>${exHtml}`;
+        card.innerHTML = `<h3>${day.title}</h3>${exHtml}`;
         container.appendChild(card);
     });
 }
@@ -326,10 +276,7 @@ function generateStructuredWorkout(user) {
 function renderWiki() {
     document.getElementById('render-wiki').innerHTML = EXERCISES_DATABASE.map(ex => `
         <div class="lib-card" data-search="${ex.name.toLowerCase()}">
-            <span class="muscle-tag">${ex.cat}</span>
-            <h2 style="margin: 10px 0; font-family:'Orbitron'; font-size:1.1rem;">${ex.name}</h2>
-            <p style="font-size:0.9rem;">${ex.desc}</p>
-            <div style="background:rgba(173,255,47,0.1); padding:10px; border-left:3px solid var(--primary); font-size:0.8rem; color:var(--primary); margin-top:10px;">DICA: ${ex.tip}</div>
+            <span class="muscle-tag">${ex.cat}</span><h2>${ex.name}</h2><p>${ex.desc}</p>
         </div>`).join('');
 }
 
@@ -342,26 +289,16 @@ function searchWiki() {
 
 function renderCharts() {
     const loadContainer = document.getElementById('chart-load');
-    const massContainer = document.getElementById('chart-mass');
     const exerciseFilter = document.getElementById('filter-chart-exercise').value;
-
-    const renderBars = (data, unit, isMass) => {
-        const filteredData = isMass ? data : data.filter(d => d.ex === exerciseFilter);
-        if(filteredData.length === 0) return `<p style="color:#444; width:100%; text-align:center; padding-top:70px;">SEM DADOS</p>`;
-        const values = filteredData.map(d => d.val);
-        const max = Math.max(...values) * 1.2;
-        return filteredData.map((d) => `
-            <div class="bar-group"><div class="bar" style="height: ${(d.val/max)*100}%; ${isMass ? 'background:#fff' : ''}" data-value="${d.val}${unit}"></div>
-            <div class="bar-label">${d.m}</div></div>`).join('');
-    };
-    loadContainer.innerHTML = renderBars(evolutionStore.bench, 'kg', false);
-    massContainer.innerHTML = renderBars(evolutionStore.mass, 'kg', true);
+    const filteredData = evolutionStore.bench.filter(d => d.ex === exerciseFilter);
+    if(filteredData.length === 0) { loadContainer.innerHTML = "SEM DADOS"; return; }
+    const max = Math.max(...filteredData.map(d => d.val)) * 1.2;
+    loadContainer.innerHTML = filteredData.map(d => `
+        <div class="bar-group"><div class="bar" style="height: ${(d.val/max)*100}%" data-value="${d.val}kg"></div>
+        <div class="bar-label">${d.m}</div></div>`).join('');
 }
 
-// AUTO-LOGIN AO CARREGAR PÁGINA
 window.onload = () => {
     const salvo = localStorage.getItem('usuarioLogado');
-    if (salvo) {
-        startApp(JSON.parse(salvo));
-    }
+    if (salvo) startApp(JSON.parse(salvo));
 };
