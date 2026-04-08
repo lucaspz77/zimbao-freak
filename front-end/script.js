@@ -1,8 +1,8 @@
 const MONTHS = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
 
-// 1. BASE DE DADOS COMPLETA
+// 1. BASE DE DADOS COMPLETA (Mantida)
 const EXERCISES_DATABASE = [
-    // PEITO (1-10)
+    // ... todos os seus exercícios permanecem aqui ...
     { id: 1, cat: "Peito", name: "Supino Reto Barra", target: "Peitoral Maior", desc: "Clássico para massa bruta.", tip: "Ponte leve com a coluna." },
     { id: 2, cat: "Peito", name: "Supino Inclinado Halteres", target: "Peitoral Superior", desc: "Foco na parte de cima do peito.", tip: "Não encoste os halteres." },
     { id: 3, cat: "Peito", name: "Crucifixo Reto", target: "Peitoral", desc: "Isolamento total.", tip: "Cotovelos levemente flexionados." },
@@ -13,7 +13,6 @@ const EXERCISES_DATABASE = [
     { id: 8, cat: "Peito", name: "Peck Deck (Voador)", target: "Estrias do Peito", desc: "Isolamento mecânico.", tip: "Não deixe o peso bater." },
     { id: 9, cat: "Peito", name: "Supino Reto Halteres", target: "Estabilizadores", desc: "Maior amplitude que a barra.", tip: "Desça até sentir alongar." },
     { id: 10, cat: "Peito", name: "Pull Over", target: "Peitoral/Serrátil", desc: "Expansão da caixa torácica.", tip: "Mantenha os braços quase retos." },
-    // COSTAS (11-20)
     { id: 11, cat: "Costas", name: "Puxada Alta (Pulley)", target: "Dorsais (Largura)", desc: "Puxe para o peito.", tip: "Não balance o tronco." },
     { id: 12, cat: "Costas", name: "Remada Curvada Barra", target: "Dorsais (Espessura)", desc: "Puxada explosiva.", tip: "Coluna 45 graus sempre reta." },
     { id: 13, cat: "Costas", name: "Barra Fixa (Pull Up)", target: "Dorsais", desc: "O rei das costas largas.", tip: "Puxe até o queixo passar a barra." },
@@ -24,7 +23,6 @@ const EXERCISES_DATABASE = [
     { id: 18, cat: "Costas", name: "Remada Cavalinho", target: "Espessura Total", desc: "Cargas extremas.", tip: "Peito aberto e joelhos flexionados." },
     { id: 19, cat: "Costas", name: "Lombar (Hiperextensão)", target: "Eretores da Espinha", desc: "Proteção da coluna.", tip: "Não ultrapasse a linha reta." },
     { id: 20, cat: "Costas", name: "Puxada Triângulo", target: "Lats Inferiores", desc: "Pegada fechada.", tip: "Leve o triângulo no peito inferior." },
-    // PERNAS (21-35)
     { id: 21, cat: "Pernas", name: "Agachamento Livre", target: "Quadríceps/Glúteo", desc: "O construtor de monstros.", tip: "Quebre a paralela (90 graus)." },
     { id: 22, cat: "Pernas", name: "Leg Press 45", target: "Quadríceps", desc: "Pressão total nas pernas.", tip: "Não trave os joelhos no topo." },
     { id: 23, cat: "Pernas", name: "Extensora", target: "Quadríceps (Isolado)", desc: "Foco no desenho da coxa.", tip: "Pico de contração de 1 seg." },
@@ -40,7 +38,6 @@ const EXERCISES_DATABASE = [
     { id: 33, cat: "Pernas", name: "Agachamento Sumô", target: "Adutores/Glúteo", desc: "Base aberta.", tip: "Joelhos apontando para fora." },
     { id: 34, cat: "Pernas", name: "Flexora Sentado", target: "Isquiotibiais", desc: "Isolamento sentado.", tip: "Puxe com força e solte devagar." },
     { id: 35, cat: "Pernas", name: "Sissy Squat", target: "Quadríceps (Gota)", desc: "Foco no vasto medial.", tip: "Use o apoio para segurança." },
-    // OMBROS (36-45)
     { id: 36, cat: "Ombros", name: "Desenvolvimento Militar", target: "Deltóide Anterior", desc: "Ombros de titã.", tip: "Trave o core." },
     { id: 37, cat: "Ombros", name: "Elevação Lateral Halteres", target: "Deltóide Lateral", desc: "Largura dos ombros.", tip: "Pense em empurrar para os lados." },
     { id: 38, cat: "Ombros", name: "Elevação Frontal", target: "Deltóide Anterior", desc: "Frente do ombro.", tip: "Não ultrapasse a linha dos olhos." },
@@ -51,21 +48,18 @@ const EXERCISES_DATABASE = [
     { id: 43, cat: "Ombros", name: "Face Pull Corda", target: "Posterior/Manguito", desc: "Saúde do ombro.", tip: "Puxe a corda na altura da testa." },
     { id: 44, cat: "Ombros", name: "Elevação Lateral Polia", target: "Deltóide Lateral", desc: "Tensão constante.", tip: "Passe o cabo por trás das pernas." },
     { id: 45, cat: "Ombros", name: "Desenvolvimento Halteres", target: "Deltóide Anterior", desc: "Estabilidade e carga.", tip: "Encoste levemente em cima." },
-    // BÍCEPS (46-50)
     { id: 46, cat: "Bíceps", name: "Rosca Direta Barra W", target: "Bíceps (Massa)", desc: "O clássico.", tip: "Não balance os cotovelos." },
     { id: 47, cat: "Bíceps", name: "Rosca Alternada", target: "Braquial/Bíceps", desc: "Supinação no topo.", tip: "Gire o punho para fora." },
     { id: 48, cat: "Bíceps", name: "Rosca Martelo", target: "Braquiorradial", desc: "Largura do braço.", tip: "Pegada neutra." },
     { id: 49, cat: "Bíceps", name: "Rosca Scott", target: "Pico do Bíceps", desc: "Isolamento total.", tip: "Não estenda 100% para proteger o tendão." },
     { id: 50, cat: "Bíceps", name: "Rosca Concentrada", target: "Bíceps Isolado", desc: "Desenho e pico.", tip: "Cotovelo na parte interna da coxa." },
-    // TRÍCEPS (51-57)
     { id: 51, cat: "Tríceps", name: "Tríceps Testa Barra W", target: "Cabeça Longa", desc: "Massa do tríceps.", tip: "Leve a barra até a testa." },
     { id: 52, cat: "Tríceps", name: "Tríceps Corda Polia", target: "Cabeça Lateral", desc: "Definição 'ferradura'.", tip: "Abra a corda embaixo." },
     { id: 53, cat: "Tríceps", name: "Tríceps Pulley Barra", target: "Tríceps Geral", desc: "Carga e explosão.", tip: "Mantenha o corpo fixo." },
     { id: 54, cat: "Tríceps", name: "Tríceps Francês Halter", target: "Cabeça Longa", desc: "Alongamento máximo.", tip: "Mantenha os cotovelos fechados." },
-    { id: 55, cat: "Tríceps", name: "Mergulho Paralelas", target: "Tríceps/Peito", desc: "Peso do corpo.", tip: "Corpo reto foca tríceps." },
+    { id: 55, cat: "Tríceps", name: "Mergulho Paralelas", target: "Tríceps/Peito", desc: "Peso do corpo.", tip: "Corpo reco foca tríceps." },
     { id: 56, cat: "Tríceps", name: "Supino Fechado", target: "Tríceps (Carga)", desc: "Poder de empurrar.", tip: "Mãos na largura dos ombros." },
     { id: 57, cat: "Tríceps", name: "Coice Halter", target: "Tríceps (Detalhe)", desc: "Fim do treino.", tip: "Estenda totalmente o braço." },
-    // ABDÔMEN E CORE (61-70)
     { id: 61, cat: "Abdômen", name: "Abdominal Supra", target: "Reto Abdominal", desc: "Parte superior.", tip: "Não puxe o pescoço." },
     { id: 62, cat: "Abdômen", name: "Elevação de Pernas", target: "Abdomen Inferior", desc: "Pochete.", tip: "Não encoste os pés no chão." },
     { id: 63, cat: "Abdômen", name: "Prancha Isométrica", target: "Core/Estabilidade", desc: "Resistência.", tip: "Corpo como uma tábua." },
@@ -74,7 +68,7 @@ const EXERCISES_DATABASE = [
     { id: 68, cat: "Abdômen", name: "Vacuum", target: "Transverso", desc: "Cintura fina.", tip: "Solte todo o ar e sugue o umbigo." }
 ];
 
-// 2. METODOLOGIAS PROFISSIONAIS
+// 2. METODOLOGIAS (Mantida)
 const METHODOLOGIES_DATABASE = [
     { name: "Low Volume (Heavy Duty)", desc: "Intensidade máxima até a falha total.", protocol: "2 sets x 6-8 reps", color: "#ff4500" },
     { name: "High Volume (Volume Alemão)", desc: "Grande quantidade de séries para hipertrofia.", protocol: "10 sets x 10 reps", color: "#adff2f" },
@@ -83,7 +77,8 @@ const METHODOLOGIES_DATABASE = [
 ];
 
 let currentUser = null;
-let evolutionStore = JSON.parse(localStorage.getItem('z_freak_evolution_v3')) || { bench: [], mass: [] };
+// EvolutionStore agora vai buscar do Banco de Dados no startApp
+let evolutionStore = { bench: [], mass: [] };
 
 // AUTH & NAVIGATION
 function toggleAuth() {
@@ -91,28 +86,142 @@ function toggleAuth() {
     document.getElementById('setup-form').classList.toggle('hidden');
 }
 
-function handleLogin() {
+// LOGIN VIA BACK-END (Integrado com Perfil)
+async function handleLogin() {
     const email = document.getElementById('auth-email').value;
-    if(email.length > 5) {
-        const saved = JSON.parse(localStorage.getItem('z_freak_user'));
-        if(saved) startApp(saved);
-        else { alert("Usuário não encontrado!"); toggleAuth(); }
-    } else alert("Insira um e-mail");
+    const password = document.getElementById('auth-pass').value;
+
+    try {
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const user = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem('usuarioLogado', JSON.stringify(user));
+            startApp(user);
+        } else {
+            alert("Credenciais incorretas, monstro!");
+        }
+    } catch (error) {
+        alert("Erro ao conectar no servidor.");
+    }
 }
 
-document.getElementById('main-setup').onsubmit = function(e) {
+// CADASTRO VIA BACK-END
+document.getElementById('main-setup').onsubmit = async function(e) {
     e.preventDefault();
     const user = { 
         name: document.getElementById('name').value, 
+        email: document.getElementById('auth-email').value, 
+        password: document.getElementById('setup-pass').value, 
         goal: document.getElementById('goal').value, 
         freq: parseInt(document.getElementById('freq').value),
         weight: parseFloat(document.getElementById('weight').value),
         height: parseFloat(document.getElementById('height').value),
         age: parseInt(document.getElementById('age').value)
     };
-    localStorage.setItem('z_freak_user', JSON.stringify(user));
-    startApp(user);
+
+    try {
+        const response = await fetch('http://localhost:3000/usuarios', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
+        });
+        if (response.ok) {
+            alert("Monstro cadastrado com sucesso!");
+            startApp(user);
+        }
+    } catch (error) {
+        alert("Erro no servidor.");
+    }
 };
+
+// INICIALIZAÇÃO DO APP (Perfil e Cargas)
+async function startApp(user) {
+    currentUser = user;
+    
+    // Mostra Dashboard e Perfil
+    document.getElementById('auth-container').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    
+    // Atualiza todos os campos de Perfil (Header e Nav)
+    if(document.getElementById('user-header')) document.getElementById('user-header').style.display = 'flex';
+    if(document.getElementById('header-display-name')) document.getElementById('header-display-name').innerText = user.name.toUpperCase();
+    if(document.getElementById('header-display-goal')) document.getElementById('header-display-goal').innerText = user.goal.toUpperCase();
+    if(document.getElementById('header-display-weight')) document.getElementById('header-display-weight').innerText = user.weight;
+    
+    document.getElementById('nav-display-name').innerText = user.name.split(' ')[0].toUpperCase();
+    document.getElementById('nav-display-goal').innerText = user.goal.toUpperCase();
+
+    // Configura opções dos selects
+    const options = EXERCISES_DATABASE.sort((a,b) => a.name.localeCompare(b.name))
+                    .map(ex => `<option value="${ex.name}">${ex.name}</option>`).join('');
+    document.getElementById('log-exercise').innerHTML = options;
+    document.getElementById('filter-chart-exercise').innerHTML = options;
+
+    // Busca cargas do banco
+    await carregarCargasDoBanco();
+
+    injectAcademyTab();
+    generateStructuredWorkout(user);
+    renderWiki(); 
+    calculateDiet(user);
+}
+
+// LOGOUT
+function logout() {
+    localStorage.removeItem('usuarioLogado');
+    location.reload();
+}
+
+// FUNÇÃO PARA BUSCAR CARGAS NO MONGODB
+async function carregarCargasDoBanco() {
+    try {
+        const response = await fetch(`http://localhost:3000/meus-treinos/${currentUser._id || currentUser.email}`);
+        const treinos = await response.json();
+        
+        evolutionStore.bench = treinos.map(t => ({
+            val: t.carga,
+            m: MONTHS[new Date(t.data).getMonth()],
+            ex: t.exercicio
+        }));
+        renderCharts();
+    } catch (e) {
+        console.log("Erro ao carregar histórico.");
+    }
+}
+
+// REGISTRAR CARGA NO BANCO
+async function updateEvolution() {
+    const exercise = document.getElementById('log-exercise').value;
+    const benchVal = parseFloat(document.getElementById('log-bench').value);
+    const massVal = parseFloat(document.getElementById('log-mass').value);
+    
+    if(benchVal > 0) {
+        await fetch('http://localhost:3000/salvar-treino', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                userId: currentUser._id || currentUser.email, 
+                exercicio: exercise, 
+                carga: benchVal 
+            })
+        });
+    }
+    
+    // Peso corporal ainda mantemos local ou pode adicionar rota no back se quiser
+    if(massVal > 0) {
+        evolutionStore.mass.push({val: massVal, m: MONTHS[new Date().getMonth()]});
+    }
+
+    await carregarCargasDoBanco();
+}
+
+// ... Restante das suas funções (calculateDiet, injectAcademyTab, generateStructuredWorkout, renderWiki, renderCharts, changeTab) permanecem exatamente iguais ...
 
 function changeTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -120,27 +229,6 @@ function changeTab(tabId, btn) {
     document.getElementById(tabId).classList.add('active');
     btn.classList.add('active');
     window.scrollTo(0,0);
-}
-
-// CORE SYSTEM FUNCTIONS
-function startApp(user) {
-    currentUser = user;
-    document.getElementById('auth-container').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('display-name').innerText = user.name.toUpperCase();
-    document.getElementById('display-goal').innerText = user.goal.toUpperCase();
-    
-    // Preenche selects de exercícios
-    const options = EXERCISES_DATABASE.sort((a,b) => a.name.localeCompare(b.name))
-                    .map(ex => `<option value="${ex.name}">${ex.name}</option>`).join('');
-    document.getElementById('log-exercise').innerHTML = options;
-    document.getElementById('filter-chart-exercise').innerHTML = options;
-
-    injectAcademyTab(); // Injeta a aba nova
-    generateStructuredWorkout(user); // Gera o treino profissional
-    renderWiki(); 
-    renderCharts();
-    calculateDiet(user);
 }
 
 function calculateDiet(user) {
@@ -164,8 +252,6 @@ function calculateDiet(user) {
         • <b>Jantar:</b> Proteína magra, legumes e gordura boa.
     `;
 }
-
-// --- AS NOVAS FUNÇÕES PROFISSIONAIS ABAIXO ---
 
 function injectAcademyTab() {
     const bottomBar = document.querySelector('.bottom-bar');
@@ -198,25 +284,24 @@ function generateStructuredWorkout(user) {
     container.innerHTML = "";
     const getById = (id) => EXERCISES_DATABASE.find(e => e.id === id);
     
-    // Define metodologia por objetivo
-    let method = METHODOLOGIES_DATABASE[3]; // Padrão
+    let method = METHODOLOGIES_DATABASE[3];
     if(user.goal === 'hipertrofia') method = METHODOLOGIES_DATABASE[1];
     if(user.goal === 'forca') method = METHODOLOGIES_DATABASE[2];
     if(user.goal === 'cutting') method = METHODOLOGIES_DATABASE[0];
 
     let workoutPlan = [];
-    if(user.freq >= 5) { // PPL Profissional
+    if(user.freq >= 5) {
         workoutPlan = [
             { title: "PUSH (Peito/Ombro/Tríceps)", ids: [1, 2, 36, 37, 51, 52] },
             { title: "PULL (Costas/Bíceps)", ids: [15, 11, 12, 46, 48, 42] },
             { title: "LEGS (Membros Inferiores)", ids: [21, 22, 25, 23, 31, 62] }
         ];
-    } else if(user.freq == 4) { // Upper/Lower
+    } else if(user.freq == 4) {
         workoutPlan = [
             { title: "UPPER (Superior)", ids: [1, 11, 36, 12, 46, 51] },
             { title: "LOWER (Inferior)", ids: [21, 24, 22, 25, 31, 63] }
         ];
-    } else { // Full Body
+    } else {
         workoutPlan = [{ title: "FULL BODY (Completo)", ids: [21, 1, 11, 36, 47, 61] }];
     }
 
@@ -238,7 +323,6 @@ function generateStructuredWorkout(user) {
     });
 }
 
-// WIKI & CHARTS
 function renderWiki() {
     document.getElementById('render-wiki').innerHTML = EXERCISES_DATABASE.map(ex => `
         <div class="lib-card" data-search="${ex.name.toLowerCase()}">
@@ -254,17 +338,6 @@ function searchWiki() {
     document.querySelectorAll('.lib-card').forEach(card => {
         card.style.display = card.getAttribute('data-search').includes(query) ? 'block' : 'none';
     });
-}
-
-function updateEvolution() {
-    const exercise = document.getElementById('log-exercise').value;
-    const benchVal = parseFloat(document.getElementById('log-bench').value);
-    const massVal = parseFloat(document.getElementById('log-mass').value);
-    const currentMonth = MONTHS[new Date().getMonth()];
-    if(benchVal > 0) evolutionStore.bench.push({val: benchVal, m: currentMonth, ex: exercise});
-    if(massVal > 0) evolutionStore.mass.push({val: massVal, m: currentMonth});
-    localStorage.setItem('z_freak_evolution_v3', JSON.stringify(evolutionStore));
-    renderCharts();
 }
 
 function renderCharts() {
@@ -285,125 +358,10 @@ function renderCharts() {
     massContainer.innerHTML = renderBars(evolutionStore.mass, 'kg', true);
 }
 
-// 1. INJETAR OPÇÃO "INICIANTE" NO SELECIONADOR DE OBJETIVO
-(function injectInicianteOption() {
-    const goalSelect = document.getElementById('goal');
-    if (goalSelect) {
-        // Verifica se já existe para não duplicar
-        if (![...goalSelect.options].some(o => o.value === 'iniciante')) {
-            const option = document.createElement('option');
-            option.value = 'iniciante';
-            option.text = 'INICIANTE (ADAPTAÇÃO AB)';
-            goalSelect.add(option, goalSelect.options[1]);
-        }
+// AUTO-LOGIN AO CARREGAR PÁGINA
+window.onload = () => {
+    const salvo = localStorage.getItem('usuarioLogado');
+    if (salvo) {
+        startApp(JSON.parse(salvo));
     }
-})();
-
-// 2. ADICIONAR MÉTODO INICIANTE NO DATABASE
-if (!METHODOLOGIES_DATABASE.some(m => m.name.includes("Iniciante"))) {
-    METHODOLOGIES_DATABASE.push({ 
-        name: "Adaptação AB", 
-        desc: "Divisão clássica para iniciantes: Dia A (Empurrar) e Dia B (Puxar/Pernas). Foco em máquinas.",
-        protocol: "3 sets x 15 reps",
-        color: "#00ffcc"
-    });
-}
-
-// 3. REESCREVER A LÓGICA DE TREINO PARA DIVISÃO AB REAL
-const originalWorkoutFunc = generateStructuredWorkout;
-
-generateStructuredWorkout = function(user) {
-    if(user.goal === 'iniciante') {
-        const container = document.getElementById('render-workout');
-        container.innerHTML = "";
-        const getById = (id) => EXERCISES_DATABASE.find(e => e.id === id);
-        const method = METHODOLOGIES_DATABASE.find(m => m.name.includes("Iniciante"));
-
-        // DIVISÃO REAL AB INICIANTE
-        const workoutPlan = [
-            { 
-                title: "TREINO A (Peito / Ombro / Tríceps)", 
-                ids: [7, 8, 45, 37, 53, 52] // Chest Press, Peck Deck, Desenv. Halter, Lat. Halter, Pulley Barra, Corda
-            },
-            { 
-                title: "TREINO B (Costas / Pernas / Bíceps)", 
-                ids: [11, 16, 22, 23, 46, 61] // Puxada Alta, Remada Baixa, Leg Press, Extensora, Rosca Direta, Abdominal
-            }
-        ];
-
-        workoutPlan.forEach(day => {
-            const card = document.createElement('div');
-            card.className = "day-card";
-            let exHtml = day.ids.map(id => {
-                const ex = getById(id);
-                return `<div class="exercise-item">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong>${ex.name}</strong>
-                        <span style="color:${method.color}; font-family:'Orbitron'; font-size:0.7rem;">${method.protocol}</span>
-                    </div>
-                    <small style="color:#666;">EXECUÇÃO CONTROLADA | ${method.name}</small>
-                </div>`;
-            }).join('');
-            card.innerHTML = `<h3><i class="fas fa-layer-group"></i> ${day.title}</h3>${exHtml}`;
-            container.appendChild(card);
-        });
-    } else {
-        originalWorkoutFunc(user);
-    }
-}; 
-
-(function injectPasswordFields() {
-    // 1. Adiciona campo de senha no LOGIN
-    const loginEmail = document.getElementById('auth-email');
-    if (loginEmail && !document.getElementById('auth-pass')) {
-        const passInput = document.createElement('input');
-        passInput.type = 'password';
-        passInput.id = 'auth-pass';
-        passInput.placeholder = 'Sua Senha de Monstro';
-        passInput.style.marginTop = '10px';
-        loginEmail.parentNode.insertBefore(passInput, loginEmail.nextSibling);
-    }
-
-    // 2. Adiciona campo de senha no CADASTRO (SETUP)
-    const nameInput = document.getElementById('name');
-    if (nameInput && !document.getElementById('setup-pass')) {
-        const setupPass = document.createElement('input');
-        setupPass.type = 'password';
-        setupPass.id = 'setup-pass';
-        setupPass.placeholder = 'Crie uma Senha';
-        setupPass.required = true;
-        setupPass.style.marginBottom = '15px';
-        nameInput.parentNode.insertBefore(setupPass, nameInput.nextSibling);
-    }
-})();
-
-// 2. REESCREVER AS FUNÇÕES DE AUTH PARA VALIDAR A SENHA
-const originalHandleLogin = handleLogin;
-handleLogin = function() {
-    const email = document.getElementById('auth-email').value;
-    const pass = document.getElementById('auth-pass').value;
-    const saved = JSON.parse(localStorage.getItem('z_freak_user'));
-
-    if (saved && saved.email === email && saved.password === pass) {
-        startApp(saved);
-    } else {
-        alert("E-mail ou Senha incorretos! Tente novamente.");
-    }
-};
-
-// 3. ATUALIZAR O CADASTRO PARA SALVAR A SENHA E O EMAIL
-document.getElementById('main-setup').onsubmit = function(e) {
-    e.preventDefault();
-    const user = { 
-        name: document.getElementById('name').value, 
-        email: document.getElementById('auth-email').value, // Pega o email do campo de login
-        password: document.getElementById('setup-pass').value, // Nova senha
-        goal: document.getElementById('goal').value, 
-        freq: parseInt(document.getElementById('freq').value),
-        weight: parseFloat(document.getElementById('weight').value),
-        height: parseFloat(document.getElementById('height').value),
-        age: parseInt(document.getElementById('age').value)
-    };
-    localStorage.setItem('z_freak_user', JSON.stringify(user));
-    startApp(user);
 };

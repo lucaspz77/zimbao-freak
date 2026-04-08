@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header id="user-header" style="display: none; justify-content: space-between; align-items: center; padding: 15px; background: #1a1a1a; border-bottom: 2px solid #adff2f;">
+        <div class="user-info">
+            <span id="header-display-name" style="color: #adff2f; font-weight: bold; font-size: 1.2rem;"></span>
+            <p style="font-size: 0.8rem; color: #ccc;">Meta: <span id="header-display-goal"></span> | Peso: <span id="header-display-weight"></span>kg</p>
+        </div>
+        <button onclick="logout()" style="background: #ff4444; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.7rem;">SAIR</button>
+    </header>
 
     <main id="auth-container">
         <div class="auth-card" id="login-form">
@@ -52,11 +59,11 @@
 
     <div id="dashboard">
         <nav class="top-nav">
-            <div id="user-info">
+            <div id="nav-user-info">
                 <small style="color: var(--primary); font-weight: 800; display: block;">PROTOCOLO ATIVO</small>
-                <span id="display-name" style="font-family: 'Orbitron'; font-size: 0.9rem;">USUÁRIO</span>
+                <span id="nav-display-name" style="font-family: 'Orbitron'; font-size: 0.9rem;">USUÁRIO</span>
             </div>
-            <div id="display-goal" style="font-size: 0.7rem; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 20px; color: var(--primary);">GOAL</div>
+            <div id="nav-display-goal" style="font-size: 0.7rem; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 20px; color: var(--primary);">GOAL</div>
         </nav>
 
         <section id="tab-workout" class="tab-content active">
@@ -128,7 +135,7 @@
             <div class="nav-btn" onclick="changeTab('tab-diet', this)"><i class="fas fa-utensils"></i></div>
             <div class="nav-btn" onclick="changeTab('tab-stats', this)"><i class="fas fa-chart-line"></i></div>
             <div class="nav-btn" onclick="changeTab('tab-wiki', this)"><i class="fas fa-book-skull"></i></div>
-            <div class="nav-btn" onclick="location.reload()"><i class="fas fa-power-off"></i></div>
+            <div class="nav-btn" onclick="logout()"><i class="fas fa-power-off"></i></div>
         </nav>
     </div>
 
