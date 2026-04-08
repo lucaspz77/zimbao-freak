@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // SUA CONEXÃO COM O MONGO ATLAS
-const mongoURI = "mongodb+srv://zambalucaspastro_db_user:zamba123@cluster0.deqgluq.mongodb.net/zimbao?retryWrites=true&w=majority&appName=Cluster0";
+const mongoURI = "mongodb+srv://admin:admin123@cluster0.deqgluq.mongodb.net/zimbao?retryWrites=true&w=majority";
 
 mongoose.connect(mongoURI)
     .then(() => console.log("💪 CONECTADO AO MONGO ATLAS!"))
